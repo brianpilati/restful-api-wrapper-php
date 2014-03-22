@@ -1,5 +1,5 @@
 {
-    "name": "brianpilati/restful-api-wrapper-php",
+    "name": "RESTful/wrapper",
     "type": "library",
     "description": "A php wrapper for RESTful apis",
     "keywords": ["REST","api","wrapper"],
