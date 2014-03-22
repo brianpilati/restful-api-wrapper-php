@@ -1,0 +1,22 @@
+<phpunit 
+  bootstrap="bootstrap.php"
+  colors="true"
+  verbose="true"
+>
+   
+  <testsuites>
+    <testsuite name="restful">
+      <directory>unit</directory>
+    </testsuite>
+  </testsuites>
+     
+  <groups>
+    <exclude>
+      <group></group>
+    </exclude>
+  </groups>
+      
+  <logging>
+    <log type="coverage-html" target="test-reports" charset="UTF-8" yui="true" />
+  </logging>
+</phpunit>
