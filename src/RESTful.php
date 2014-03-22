@@ -2,8 +2,6 @@
 
 include_once join('/', array(__DIR__, 'AutoLoader.php'));
 
-namespace brianpilati\restful;
-
 use RESTfulInterface;
 
 class RESTful implements RESTfulInterface {
