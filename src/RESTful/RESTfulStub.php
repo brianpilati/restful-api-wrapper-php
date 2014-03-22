@@ -3,15 +3,19 @@
  * Stubs the RESTful interface without issuing any cURL requests.
  **/
 
-class RESTfulStub
-    implements RESTfulInterface
+namespace RESTful;
+
+use RESTful\RESTfulInterface;
+
+class RESTfulStub implements RESTfulInterface
 {
     private $_response = null;
     public $_token = null;
     public $_baseURI = null;
     public $_timeout = null;
 
-    function __construct($baseURI = '', $token = '') {
+    function __construct($baseURI = '', $token = '') 
+    {
         if (!extension_loaded('curl')) {
             trigger_error('Extension CURL is not loaded.', E_USER_ERROR);
         }
@@ -21,49 +25,60 @@ class RESTfulStub
         $this->setToken($token);
     }
 
-    public function setToken($token) {
+    public function setToken($token) 
+    {
         $this->_token = $token;
     }
 
-    public function setBaseURI($baseURI) {
+    public function setBaseURI($baseURI) 
+    {
         $baseURI .= (substr($baseURI, -1) == '/' ? '' : '/');
         $this->_baseURI = $baseURI;
     }
 
-    public function setTimeOut($seconds) {
+    public function setTimeOut($seconds) 
+    {
         $this->_timeout = $seconds;
     }
 
-    public function set($path, $data) {
+    public function set($path, $data) 
+    {
       return $this->_getSetResponse($data);
     }
 
-    public function push($path, $data) {
+    public function push($path, $data) 
+    {
       return $this->set($path, $data);
     }
 
-    public function update($path, $data) {
+    public function update($path, $data) 
+    {
       return $this->set($path, $data);
     }
 
-    public function get($path) {
+    public function get($path) 
+    {
       return $this->_getGetResponse();
     }
 
-    public function delete($path) {
+    public function delete($path) 
+    {
       return $this->_getDeleteResponse();
     }
 
-    public function setResponse($expectedResponse) {
+    public function setResponse($expectedResponse) 
+    {
         $this->_response = $expectedResponse;
     }
 
-    private function _isBaseURIValid() {
+    private function _isBaseURIValid() 
+    {
       $error = preg_match('/^https:\/\//', $this->_baseURI);
       return new Error(($error == 0 ? true : false), 'RESTful does not support non-ssl traffic. Please try your request again over https.');
     }
 
-    private function _isDataValid($data) {
+    private function _isDataValid($data) 
+    {
       if ($data == "" || $data == null) {
         return new Error(true, "Missing data; Perhaps you forgot to send the data.");
       }
@@ -72,21 +87,25 @@ class RESTfulStub
       return new Error((is_a($error, 'stdClass') ? false : true), "Invalid data; couldn't parse JSON object, array, or value. Perhaps you're using invalid characters in your key names.");
     }
 
-    private function _getSetResponse($data) {
+    private function _getSetResponse($data) 
+    {
       $validBaseUriObject = $this->_isBaseURIValid();
-      if ($validBaseUriObject->getError()) {
+      if ($validBaseUriObject->getError()) 
+      {
         return $validBaseUriObject->getMessage();
       }
 
       $validDataObject = $this->_isDataValid($data);
-      if ($validDataObject->getError()) {
+      if ($validDataObject->getError()) 
+      {
         return $validDataObject->getMessage();
       }
 
       return $this->_response;
     }
 
-    private function _getGetResponse() {
+    private function _getGetResponse() 
+    {
       $validBaseUriObject = $this->_isBaseURIValid();
       if ($validBaseUriObject->getError()) {
         return $validBaseUriObject->getMessage();
@@ -97,20 +116,24 @@ class RESTfulStub
     private function _getDeleteResponse() { return $this->_getGetResponse(); }
 }
 
-Class Error {
+Class Error 
+{
   private $error = null;
   private $message = null;
 
-  function __construct($error, $message) {
+  function __construct($error, $message) 
+  {
     $this->error = $error;
     $this->message = $message;
   }
 
-  public function getError() {
+  public function getError() 
+  {
     return $this->error;
   }
 
-  public function getMessage() {
+  public function getMessage() 
+  {
     return $this->message;
   }
 }

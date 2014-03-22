@@ -1,8 +1,7 @@
 <?php
 
-  include_once join('/', array(__DIR__, '..', 'src', 'AutoLoader.php'));
+    include_once join('/', array(__DIR__, 'AutoLoader.php'));
+    AutoLoader::registerDirectory(join('/', array(__DIR__, '..', 'src' )));
 
-  // Register the directory to your include files
-  AutoLoader::registerDirectory('./src');
-?>
-
+    require_once __DIR__ . '/../src/RESTful/RESTfulInterface.php';
+    require_once __DIR__ . '/../src/RESTful/RESTfulStub.php';

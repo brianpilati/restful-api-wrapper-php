@@ -30,9 +30,6 @@ class AutoLoader {
         require_once(AutoLoader::$classNames[$className]);
       }
     }
-     
 }
-     
-spl_autoload_register(array('AutoLoader', 'loadClass'));
 
-AutoLoader::registerDirectory(__DIR__);
+spl_autoload_register(array('AutoLoader', 'loadClass'));

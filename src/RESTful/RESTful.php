@@ -1,10 +1,11 @@
 <?php
 
-include_once join('/', array(__DIR__, 'AutoLoader.php'));
+namespace RESTful;
 
-use RESTfulInterface;
+use RESTful\RESTfulInterface;
 
-class RESTful implements RESTfulInterface {
+class RESTful implements RESTfulInterface 
+{
     private $_baseURI;
     private $_timeout;
     private $_token;
@@ -16,7 +17,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return void
      */
-    function __construct($baseURI = '', $token = '') {
+    function __construct($baseURI = '', $token = '') 
+    {
         if ($baseURI == '') {
             trigger_error('You must provide a baseURI variable.', E_USER_ERROR);
         }
@@ -37,7 +39,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return void
      */
-    public function setToken($token) {
+    public function setToken($token) 
+    {
         $this->_token = $token;
     }
 
@@ -48,7 +51,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return void
      */
-    public function setBaseURI($baseURI) {
+    public function setBaseURI($baseURI) 
+    {
         $baseURI .= (substr($baseURI, -1) == '/' ? '' : '/');
         $this->_baseURI = $baseURI;
     }
@@ -58,7 +62,8 @@ class RESTful implements RESTfulInterface {
      *
      * @param String $path to data
      */
-    private function _getJsonPath($path) {
+    private function _getJsonPath($path) 
+    {
         $url = $this->_baseURI;
         $path = ltrim($path, '/');
         $auth = ($this->_token == '') ? '' : '?auth=' . $this->_token;
@@ -72,7 +77,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return void
      */
-    public function setTimeOut($seconds) {
+    public function setTimeOut($seconds) 
+    {
         $this->_timeout = $seconds;
     }
 
@@ -85,7 +91,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return Array Response
      */
-    public function set($path, $data) {
+    public function set($path, $data) 
+    {
       return $this->_writeData($path, $data, 'PUT');
     }
 
@@ -98,7 +105,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return Array Response
      */
-    public function push($path, $data) {
+    public function push($path, $data) 
+    {
       return $this->_writeData($path, $data, 'POST');
     }
 
@@ -111,7 +119,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return Array Response
      */
-    public function update($path, $data) {
+    public function update($path, $data) 
+    {
       return $this->_writeData($path, $data, 'PATCH');
     }
 
@@ -123,7 +132,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return Array Response
      */
-    public function get($path) {
+    public function get($path) 
+    {
         try {
             $ch = $this->_getCurlHandler($path, 'GET');
             $return = curl_exec($ch);
@@ -142,7 +152,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return Array Response
      */
-    public function delete($path) {
+    public function delete($path) 
+    {
         try {
             $ch = $this->_getCurlHandler($path, 'DELETE');
             $return = curl_exec($ch);
@@ -160,7 +171,8 @@ class RESTful implements RESTfulInterface {
      *
      * @return CURL Curl Handler
      */
-    private function _getCurlHandler($path, $mode) {
+    private function _getCurlHandler($path, $mode) 
+    {
         $url = $this->_getJsonPath($path);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -172,7 +184,8 @@ class RESTful implements RESTfulInterface {
         return $ch;
     }
 
-    private function _writeData($path, $data, $method = 'PUT') {
+    private function _writeData($path, $data, $method = 'PUT') 
+    {
         $jsonData = json_encode($data);
         $header = array(
             'Content-Type: application/json',
