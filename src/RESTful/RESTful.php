@@ -138,7 +138,7 @@ class RESTful implements RESTfulInterface
             $ch = $this->_getCurlHandler($path, 'GET');
             $return = curl_exec($ch);
             curl_close($ch);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $return = null;
         }
         return $return;
@@ -158,7 +158,7 @@ class RESTful implements RESTfulInterface
             $ch = $this->_getCurlHandler($path, 'DELETE');
             $return = curl_exec($ch);
             curl_close($ch);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $return = null;
         }
         return $return;
@@ -197,7 +197,7 @@ class RESTful implements RESTfulInterface
             curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
             $return = curl_exec($ch);
             curl_close($ch);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $return = null;
         }
         return $return;
