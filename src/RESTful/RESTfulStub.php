@@ -48,12 +48,12 @@ class RESTfulStub implements RESTfulInterface
 
     public function post($path, $data) 
     {
-      return $this->get($path, $data);
+      return $this->put($path, $data);
     }
 
     public function patch($path, $data) 
     {
-      return $this->get($path, $data);
+      return $this->put($path, $data);
     }
 
     public function get($path) 

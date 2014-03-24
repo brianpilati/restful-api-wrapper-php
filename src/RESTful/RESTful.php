@@ -14,6 +14,7 @@ class RESTful implements RESTfulInterface
      * Constructor
      *
      * @param String $baseURI Base URI
+     * @param String $token token 
      *
      * @return void
      */
