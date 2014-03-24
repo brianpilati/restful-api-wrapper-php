@@ -89,9 +89,9 @@ class RESTful implements RESTfulInterface
      * @param String $path Path
      * @param Mixed  $data Data
      *
-     * @return Array Response
+     * @return String Response
      */
-    public function set($path, $data) 
+    public function put($path, $data) 
     {
       return $this->_writeData($path, $data, 'PUT');
     }
@@ -103,9 +103,9 @@ class RESTful implements RESTfulInterface
      * @param String $path Path
      * @param Mixed  $data Data
      *
-     * @return Array Response
+     * @return String Response
      */
-    public function push($path, $data) 
+    public function post($path, $data) 
     {
       return $this->_writeData($path, $data, 'POST');
     }
@@ -117,9 +117,9 @@ class RESTful implements RESTfulInterface
      * @param String $path Path
      * @param Mixed  $data Data
      *
-     * @return Array Response
+     * @return String Response
      */
-    public function update($path, $data) 
+    public function patch($path, $data) 
     {
       return $this->_writeData($path, $data, 'PATCH');
     }
@@ -130,7 +130,7 @@ class RESTful implements RESTfulInterface
      *
      * @param String $path Path
      *
-     * @return Array Response
+     * @return String Response
      */
     public function get($path) 
     {
@@ -150,7 +150,7 @@ class RESTful implements RESTfulInterface
      *
      * @param type $path Path
      *
-     * @return Array Response
+     * @return String Response
      */
     public function delete($path) 
     {

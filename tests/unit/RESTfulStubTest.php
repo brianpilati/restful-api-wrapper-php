@@ -69,24 +69,31 @@ class RESTfulStubTest extends \PHPUnit_Framework_TestCase
       $this->assertEquals(self::UPDATED_TIMEOUT, $this->_restfulStub->_timeout);
   }
 
-  public function testSet() 
+  public function testGet() 
   {
       $this->_restfulStub->setResponse(self::DEFAULT_DATA);
-      $actualResponse = $this->_restfulStub->set(self::DEFAULT_PATH, self::DEFAULT_DATA);
+      $actualResponse = $this->_restfulStub->get(self::DEFAULT_PATH, self::DEFAULT_DATA);
       $this->assertEquals(self::DEFAULT_DATA, $actualResponse);
   }
 
-  public function testPush() 
+  public function testPut() 
+  {
+      $this->_restfulStub->setResponse(self::DEFAULT_DATA);
+      $actualResponse = $this->_restfulStub->put(self::DEFAULT_PATH, self::DEFAULT_DATA);
+      $this->assertEquals(self::DEFAULT_DATA, $actualResponse);
+  }
+
+  public function testPost() 
   {
       $this->_restfulStub->setResponse(self::DEFAULT_PUSH_DATA);
-      $actualResponse = $this->_restfulStub->push(self::DEFAULT_PATH, self::DEFAULT_DATA);
+      $actualResponse = $this->_restfulStub->post(self::DEFAULT_PATH, self::DEFAULT_DATA);
       $this->assertEquals(self::DEFAULT_PUSH_DATA, $actualResponse);
   }
 
-  public function testUpdate() 
+  public function testPatch() 
   {
       $this->_restfulStub->setResponse(self::DEFAULT_DATA);
-      $actualResponse = $this->_restfulStub->update(self::DEFAULT_PATH, self::DEFAULT_DATA);
+      $actualResponse = $this->_restfulStub->patch(self::DEFAULT_PATH, self::DEFAULT_DATA);
       $this->assertEquals(self::DEFAULT_DATA, $actualResponse);
   }
 
@@ -99,25 +106,25 @@ class RESTfulStubTest extends \PHPUnit_Framework_TestCase
   public function testInvalidBaseUri() 
   {
     $restful = new RESTfulStub(self::INSECURE_URL);
-    $response = $restful->set(self::DEFAULT_PATH, self::DEFAULT_DATA);
+    $response = $restful->put(self::DEFAULT_PATH, self::DEFAULT_DATA);
     $this->assertEquals($this->_getErrorMessages('INSECURE_URL'), $response);
   }
 
   public function testInvalidData() 
   {
-    $response = $this->_restfulStub->set(self::DEFAULT_PATH, self::INVALID_DATA);
+    $response = $this->_restfulStub->put(self::DEFAULT_PATH, self::INVALID_DATA);
     $this->assertEquals($this->_getErrorMessages('INVALID_JSON'), $response);
   }
 
   public function testMissingData() 
   {
-    $response = $this->_restfulStub->set(self::DEFAULT_PATH, self::MISSING_DATA);
+    $response = $this->_restfulStub->put(self::DEFAULT_PATH, self::MISSING_DATA);
     $this->assertEquals($this->_getErrorMessages('NO_DATA'), $response);
   }
 
   public function testNullData() 
   {
-    $response = $this->_restfulStub->set(self::DEFAULT_PATH, self::NULL_DATA);
+    $response = $this->_restfulStub->put(self::DEFAULT_PATH, self::NULL_DATA);
     $this->assertEquals($this->_getErrorMessages('NO_DATA'), $response);
   }
 

@@ -41,19 +41,19 @@ class RESTfulStub implements RESTfulInterface
         $this->_timeout = $seconds;
     }
 
-    public function set($path, $data) 
+    public function put($path, $data) 
     {
       return $this->_getSetResponse($data);
     }
 
-    public function push($path, $data) 
+    public function post($path, $data) 
     {
-      return $this->set($path, $data);
+      return $this->get($path, $data);
     }
 
-    public function update($path, $data) 
+    public function patch($path, $data) 
     {
-      return $this->set($path, $data);
+      return $this->get($path, $data);
     }
 
     public function get($path) 
