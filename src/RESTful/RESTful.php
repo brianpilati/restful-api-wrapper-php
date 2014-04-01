@@ -9,6 +9,9 @@ class RESTful implements RESTfulInterface
     private $_baseURI;
     private $_timeout;
     private $_token;
+    private $_contentType;
+    private $_pathConfiguration = '';
+    private $_headerProperty = null; 
 
     /**
      * Constructor
@@ -18,19 +21,16 @@ class RESTful implements RESTfulInterface
      *
      * @return void
      */
-    function __construct($baseURI = '', $token = '') 
+    function __construct($baseURI, $token = '') 
     {
-        if ($baseURI == '') {
-            trigger_error('You must provide a baseURI variable.', E_USER_ERROR);
-        }
-
         if (!extension_loaded('curl')) {
-            trigger_error('Extension CURL is not loaded.', E_USER_ERROR);
+            throw new \Exception('Extension CURL is not loaded.');
         }
 
         $this->setBaseURI($baseURI);
-        $this->setTimeOut(10);
         $this->setToken($token);
+        $this->setTimeOut(10);
+        $this->setContentType('application/json');
     }
 
     /**
@@ -67,8 +67,9 @@ class RESTful implements RESTfulInterface
     {
         $url = $this->_baseURI;
         $path = ltrim($path, '/');
-        $auth = ($this->_token == '') ? '' : '?auth=' . $this->_token;
-        return $url . $path . '.json' . $auth;
+        $auth = ($this->_isAuthInPath()) ? $this->_token : '';
+        $pathConfiguration = ($this->_isPathConfiguration()) ? $this->_pathConfiguration : '/';
+        return $url . $path . $pathConfiguration . $auth;
     }
 
     /**
@@ -81,6 +82,43 @@ class RESTful implements RESTfulInterface
     public function setTimeOut($seconds) 
     {
         $this->_timeout = $seconds;
+    }
+
+    /**
+     * Sets REST call Content-Type
+     *
+     * @param String $contentType Content-Type
+     *
+     * @return void
+     */
+    public function setContentType($contentType) 
+    {
+        $this->_contentType = $contentType;
+    }
+
+    /**
+     * Sets REST call Path Configuration
+     *
+     * @param String $pathConfiguration Path Configuration
+     *
+     * @return void
+     */
+    public function setPathConfiguration($pathConfiguration) 
+    {
+        $this->_pathConfiguration = $pathConfiguration;
+    }
+
+    /**
+     * Sets REST call Header Authentication Property
+     *
+     * @param String $headerProperty Header Property
+     *
+     * @return void
+     */
+    public function setHeaderProperty($headerProperty) 
+    {
+        $headerProperty = rtrim($headerProperty, ':');
+        $this->_headerProperty = $headerProperty;
     }
 
     /**
@@ -135,14 +173,7 @@ class RESTful implements RESTfulInterface
      */
     public function get($path) 
     {
-        try {
-            $ch = $this->_getCurlHandler($path, 'GET');
-            $return = curl_exec($ch);
-            curl_close($ch);
-        } catch (\Exception $e) {
-            $return = null;
-        }
-        return $return;
+        return $this->_noData($path);
     }
 
     /**
@@ -155,14 +186,7 @@ class RESTful implements RESTfulInterface
      */
     public function delete($path) 
     {
-        try {
-            $ch = $this->_getCurlHandler($path, 'DELETE');
-            $return = curl_exec($ch);
-            curl_close($ch);
-        } catch (\Exception $e) {
-            $return = null;
-        }
-        return $return;
+        return $this->_noData($path, 'DELETE');
     }
 
     /**
@@ -185,13 +209,44 @@ class RESTful implements RESTfulInterface
         return $ch;
     }
 
+    /**
+     * Handles non-data write RESTful calls
+     *
+     * @param String $path Path
+     * @param String $method Method
+     *
+     * @return String Response
+     */
+    private function _noData($path, $method = 'GET')
+    {
+        try {
+            $ch = $this->_getCurlHandler($path, $method);
+            $return = curl_exec($ch);
+            curl_close($ch);
+        } catch (\Exception $e) {
+            $return = null;
+        }
+        return $return;
+    }
+
+    /**
+     * Handles data write RESTful calls
+     *
+     * @param String $path Path
+     * @param Mixed  $data Data
+     * @param String $method Method
+     *
+     * @return String Response
+     */
     private function _writeData($path, $data, $method = 'PUT') 
     {
         $jsonData = json_encode($data);
         $header = array(
-            'Content-Type: application/json',
+            'Content-Type: ' . $this->_contentType,
             'Content-Length: ' . strlen($jsonData)
         );
+        $this->_addHeaderAuthentication($header);
+
         try {
             $ch = $this->_getCurlHandler($path, $method);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
@@ -202,5 +257,27 @@ class RESTful implements RESTfulInterface
             $return = null;
         }
         return $return;
+    }
+
+    private function _isAuthInPath()
+    {
+        return ($this->_token !== '' && !$this->_isHeaderAuthentication());
+    }
+
+    private function _isPathConfiguration()
+    {
+        return ($this->_pathConfiguration !== '' && !$this->_isHeaderAuthentication());
+    }
+
+    private function _isHeaderAuthentication() 
+    {
+        return $this->_headerProperty !== null;
+    }
+
+    private function _addHeaderAuthentication(&$headerArray) 
+    {
+        if ($this->_isHeaderAuthentication()) {
+            array_push($headerArray, $this->_headerProperty . ': ' . $this->_token);
+        }
     }
 }

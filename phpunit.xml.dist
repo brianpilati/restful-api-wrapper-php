@@ -24,6 +24,9 @@
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
       <directory suffix=".php">src</directory>
+      <exclude>
+        <file>src/RESTful/RESTfulStub.php</file>
+      </exclude>
     </whitelist>
   </filter>
 </phpunit>

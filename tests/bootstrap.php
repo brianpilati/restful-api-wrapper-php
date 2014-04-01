@@ -5,3 +5,4 @@
 
     require_once __DIR__ . '/../src/RESTful/RESTfulInterface.php';
     require_once __DIR__ . '/../src/RESTful/RESTfulStub.php';
+    require_once __DIR__ . '/../src/RESTful/RESTful.php';

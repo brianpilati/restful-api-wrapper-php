@@ -7,13 +7,6 @@ restful-API-wrapper-php
 
 A simple php RESTful api wrapper.
 
-Based on heavily (okay, practically copied) on https://github.com/ktamas77/firebase-php. His code is simply amazing! I helped him write the tests and the test stub. I reached out to him to fork and abstract the code but I never received a response.
-
--- Firebase PHP Class & Client Library -- 
-=========================================
-https://github.com/ktamas77/firebase-php
-@author Tamas Kalman <ktamas77@gmail.com>
-
 RESTful API Wrapper PHP Stub
 ============================
 A RESTful API Wrapper Stub has been created to allow for integration with phpunit without actually interacting with an API.
@@ -26,6 +19,48 @@ Code example
   $restful->set($path, $value);
 }
 ```
+
+Default Content-Type
+--------------------
+The default Content-Type is ```application/json```
+
+To change the default Content-Type
+```
+  $restful->setContentType(<newContentType>);
+```
+
+Default URL Path Configuration and Authentication
+-------------------------------------------------
+The default URL Path is ```<baseURI>/<paht_to_data>/<token>/```
+
+If you need to add a special configuration to the URL path
+```
+  $restful->setPathConfiguration(<newPathConfiguration>);
+```
+
+#### Examples
+
+Firebase needs a ```.json?auth=``` format.
+```
+  $restful = new RESTful('https://<yourcompany>.com/<path>/<to>/<resource>', '<token>');
+  $restful->setPathConfiguration('.json?auth=');
+  $restful->set($path, $value);
+```
+
+Header Authentication
+---------------------
+To set the authentication in the header request
+
+```
+  $restful->setHeaderProperty('<name_of_property>');
+```
+
+The full header property will be
+
+```
+  '<name_of_property>: <token>'
+```
+
 
 Unit Tests
 ==========
@@ -71,3 +106,10 @@ PHPunit tests example
   }
 ?>
 ```
+
+Based on heavily (okay, practically copied) on https://github.com/ktamas77/firebase-php. His code is simply amazing! I helped him write the tests and the test stub. I reached out to him to fork and abstract the code but I never received a response.
+
+-- Firebase PHP Class & Client Library -- 
+=========================================
+https://github.com/ktamas77/firebase-php
+@author Tamas Kalman <ktamas77@gmail.com>
