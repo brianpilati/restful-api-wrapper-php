@@ -1,12 +1,12 @@
 <phpunit 
-  bootstrap="bootstrap.php"
+  bootstrap="tests/bootstrap.php"
   colors="true"
   verbose="true"
 >
    
   <testsuites>
     <testsuite name="restful">
-      <directory>unit</directory>
+      <directory>tests/unit</directory>
     </testsuite>
   </testsuites>
      
@@ -19,4 +19,11 @@
   <logging>
     <log type="coverage-html" target="test-reports" charset="UTF-8" yui="true" />
   </logging>
+
+
+  <filter>
+    <whitelist addUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">src</directory>
+    </whitelist>
+  </filter>
 </phpunit>
