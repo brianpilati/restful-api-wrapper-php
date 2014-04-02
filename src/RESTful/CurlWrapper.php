@@ -14,7 +14,7 @@ class CurlWrapper
     protected $_headerLocation = null;
     protected $_headerProperty = null; 
     protected $_headerResponseCode = null;
-    private $_contentType;
+    protected $_contentType;
 
     /**
      * Constructor
