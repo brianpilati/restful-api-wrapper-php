@@ -14,8 +14,7 @@ Code example
 
 ```
   $restful = new RESTful('https://<yourcompany>.com/<path>/<to>/<resource>', '<token>');
-  $restful->set($path, $value);
-}
+  $restful->post($path, $data);
 ```
 
 Default Content-Type
@@ -42,7 +41,7 @@ Firebase needs a ```.json?auth=``` format.
 ```
   $restful = new RESTful('https://<yourcompany>.com/<path>/<to>/<resource>', '<token>');
   $restful->setPathConfiguration('.json?auth=');
-  $restful->set($path, $value);
+  $restful->post($path, $data);
 ```
 
 Header Authentication
