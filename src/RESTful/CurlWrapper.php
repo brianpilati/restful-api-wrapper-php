@@ -7,10 +7,14 @@ namespace RESTful;
 
 class CurlWrapper
 {
+    protected $_baseURI;
+    protected $_timeout;
+    protected $_token;
+    protected $_pathConfiguration = '';
     protected $_headerLocation = null;
-    private $_contentType;
     protected $_headerProperty = null; 
     protected $_headerResponseCode = null;
+    private $_contentType;
 
     /**
      * Constructor

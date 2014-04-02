@@ -36,6 +36,10 @@ interface RESTfulInterface
      * @return void
      */
     public function setHeaderProperty($headerProperty);
+
+    /**
+     * @return string
+     */
     public function getHeaderLocation();
 
     /**

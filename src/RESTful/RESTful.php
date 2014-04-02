@@ -4,11 +4,6 @@ namespace RESTful;
 
 class RESTful extends CurlWrapper implements RESTfulInterface 
 {
-    protected $_baseURI;
-    protected $_timeout;
-    protected $_token;
-    protected $_pathConfiguration = '';
-
     /**
      * Constructor
      *
