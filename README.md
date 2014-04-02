@@ -5,11 +5,9 @@ restful-API-wrapper-php
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brianpilati/restful-api-wrapper-php/badges/quality-score.png?s=15dcc5b665a72e9d2b930570c786c8dd79a120ff)](https://scrutinizer-ci.com/g/brianpilati/restful-api-wrapper-php/)
 
-A simple php RESTful api wrapper.
+[![Code Coverage](https://scrutinizer-ci.com/g/brianpilati/restful-api-wrapper-php/badges/coverage.png?s=a5a439760442ca1b216163a432a1cb3243f53f0c)](https://scrutinizer-ci.com/g/brianpilati/restful-api-wrapper-php/)
 
-RESTful API Wrapper PHP Stub
-============================
-A RESTful API Wrapper Stub has been created to allow for integration with phpunit without actually interacting with an API.
+A simple php RESTful api wrapper.
 
 Code example
 ------------
@@ -83,49 +81,30 @@ setToken($token)
 Unit Tests
 ==========
 
-All the unit tests are found in the "/tests" directory. Due to the usage of an interface, the tests must run in isolation.
+All the unit tests are found in the "/tests" directory. 
 
-The RESTfulStub tests can be executed by running the following command:
+The RESTful tests can be executed by running the following command:
 
 All Tests
 ---------
 
 ```
-$ phpunit --bootstrap tests/bootstrap.php --configuration tests/phpunit.xml --testsuite restful 
+$ phpunit 
 ```
 
 Test Groups
 -----------
 ```
-$ phpunit --bootstrap tests/bootstrap.php --configuration tests/phpunit.xml --group <groupName> 
+$ phpunit --group <groupName> 
 ```
 
 Single Test 
 -----------
 ```
-$ phpunit --bootstrap tests/bootstrap.php --configuration tests/phpunit.xml tests/unit/<file_name.php>
+$ phpunit tests/unit/<file_name.php>
 ```
 
-PHPunit tests example
----------------------
-
-```
-<?php
-  require_once '<path>/lib/RESTfulInterface.php';
-  require_once '<path>/lib/RESTfulStub.php';
-
-  class MyClass extends PHPUnit_Framework_TestCase
-  {
-    public function testSetRESTfulValue() {
-      $myClass = new MyClass();
-      $restfulStub = new RESTfulStub($uri, $token);
-      $myClass->setRESTFulValue($path, $value);
-    }
-  }
-?>
-```
-
-Based on heavily (okay, practically copied) on https://github.com/ktamas77/firebase-php. His code is simply amazing! I helped him write the tests and the test stub. I reached out to him to fork and abstract the code but I never received a response.
+I started with the firebase-php library (https://github.com/ktamas77/firebase-php). Tamas' code is simply amazing! I helped him write the tests and the test stub. I reached out to him to fork and abstract the code but I never received a response.
 
 -- Firebase PHP Class & Client Library -- 
 =========================================
