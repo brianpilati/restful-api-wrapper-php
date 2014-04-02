@@ -45,6 +45,11 @@ interface RESTfulInterface
     /**
      * @return string
      */
+    public function getHeaderResponseCode();
+
+    /**
+     * @return string
+     */
     public function put($path, $data);
 
     /**
