@@ -17,6 +17,7 @@ function curl_init()
     return new CurlMock();
 }
 
+
 function curl_setopt($ch, $opt, $val)
 {
     if ($opt === CURLOPT_URL) {
@@ -39,7 +40,8 @@ function curl_setopt($ch, $opt, $val)
 function curl_exec($ch)
 {
     if (preg_match("/example\/path\/MqL0/", $ch->getUrl()) && $ch->getMethod() === "GET") {
-        return DEFAULT_DATA;
+        $ch->setData(DEFAULT_DATA);
+        return $ch->getData();
     } else if (preg_match("/example\/path\/MqL0/", $ch->getUrl()) && $ch->getMethod() === "DELETE") {
         return null;
     } else if (preg_match("/error/", $ch->getUrl()) && ($ch->getMethod() === "PATCH" || $ch->getMethod() === 'GET')) {
@@ -57,7 +59,8 @@ function curl_exec($ch)
     } else if (preg_match("/example\/path\/MqL0/", $ch->getUrl()) && $ch->getMethod() === "PUT") {
         return $ch->getData();
     } else if (preg_match("/example\/path.json\?auth=MqL0/", $ch->getUrl()) && $ch->getMethod() === "GET") {
-        return DEFAULT_DATA_PATH_CONFIG;
+        $ch->setData(DEFAULT_DATA_PATH_CONFIG);
+        return $ch->getData();
     }
 }
 
@@ -137,7 +140,19 @@ class CurlMock
 
     public function getData()
     {
-        return $this->data;
+        $response = "HTTP/1.1 200 OK\n";
+        $response .= "Date: Wed, 02 Apr 2014 03:24:21 GMT\n";
+        $response .= "Server: Apache/2.2.26 (Unix) DAV/2 PHP/5.4.24 mod_ssl/2.2.26 OpenSSL/0.9.8y\n";
+        $response .= "X-Powered-By: PHP/5.4.24\n";
+        $response .= "Content-Length: 25\n";
+        $response .= "Connection: keep-alive\n";
+        $response .= "Content-Type: text/html\n";
+        $response .= "Location: https://www.mysweetexample.com\n";
+        $response .= "Pragma: no-cache\n";
+        $response .= "Cache-Control: no-cache, no-store, max-age=0, must-revalidate";
+        $response .= "\r\n\r\n" . $this->data;
+
+        return $response;
     }
 }
 

@@ -97,6 +97,32 @@ class RESTfulTest extends \PHPUnit_Framework_TestCase
         $RESTful = new \RESTful\RESTful(self::DEFAULT_URL, self::DEFAULT_TOKEN);
     }
 
+    public function testGetHeaderLocation()
+    {
+        $this->_RESTful->patch(self::DEFAULT_PATH, self::DEFAULT_PATCH_DATA);
+        $actualResponse = $this->_RESTful->getHeaderLocation();
+        $this->assertEquals('https://www.mysweetexample.com', $actualResponse);
+    }
+
+    public function testGetHeaderLocationNull()
+    {
+        $actualResponse = $this->_RESTful->getHeaderLocation();
+        $this->assertNull($actualResponse);
+    }
+
+    public function testGetHeaderResponseCode()
+    {
+        $this->_RESTful->patch(self::DEFAULT_PATH, self::DEFAULT_PATCH_DATA);
+        $actualResponse = $this->_RESTful->getHeaderResponseCode();
+        $this->assertEquals(200, $actualResponse);
+    }
+
+    public function testGetHeaderResponseCodeNull()
+    {
+        $actualResponse = $this->_RESTful->getHeaderResponseCode();
+        $this->assertNull($actualResponse);
+    }
+
     /************ Providers ************/
 
     public function headerAuthenticationProvider() 

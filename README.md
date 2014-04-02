@@ -61,6 +61,24 @@ The full header property will be
   '<name_of_property>: <token>'
 ```
 
+List of Library Methods
+=======================
+
+```
+delete($path) 
+get($path) 
+getHeaderLocation() 
+getHeaderResponseCode() 
+patch($path, $data) 
+post($path, $data) 
+put($path, $data) 
+setBaseURI($baseURI) 
+setContentType($contentType) 
+setHeaderProperty($headerProperty) 
+setPathConfiguration($pathConfiguration) 
+setTimeOut($seconds) 
+setToken($token)
+```
 
 Unit Tests
 ==========

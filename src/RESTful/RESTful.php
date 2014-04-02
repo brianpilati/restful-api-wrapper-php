@@ -12,6 +12,8 @@ class RESTful implements RESTfulInterface
     private $_contentType;
     private $_pathConfiguration = '';
     private $_headerProperty = null; 
+    private $_headerLocation = null;
+    private $_headerResponseCode = null;
 
     /**
      * Constructor
@@ -122,6 +124,26 @@ class RESTful implements RESTfulInterface
     }
 
     /**
+     * Get REST call Header Location Property
+     *
+     * @return "string"
+     */
+    public function getHeaderLocation() 
+    {
+        return $this->_headerLocation;
+    }
+
+    /**
+     * Get REST call Header Status Code Property
+     *
+     * @return "string"
+     */
+    public function getHeaderResponseCode() 
+    {
+        return $this->_headerResponseCode;
+    }
+
+    /**
      * Writing data into RESTful with a PUT request
      * HTTP 200: Ok
      *
@@ -206,6 +228,7 @@ class RESTful implements RESTfulInterface
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $mode);
+        curl_setopt($ch, CURLOPT_HEADER, true);
         return $ch;
     }
 
@@ -221,7 +244,7 @@ class RESTful implements RESTfulInterface
     {
         try {
             $ch = $this->_getCurlHandler($path, $method);
-            $return = curl_exec($ch);
+            $return = $this->_parseCurlResponse(curl_exec($ch));
             curl_close($ch);
         } catch (\Exception $e) {
             $return = null;
@@ -251,12 +274,34 @@ class RESTful implements RESTfulInterface
             $ch = $this->_getCurlHandler($path, $method);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
-            $return = curl_exec($ch);
+            $return = $this->_parseCurlResponse(curl_exec($ch));
             curl_close($ch);
         } catch (\Exception $e) {
             $return = null;
         }
         return $return;
+    }
+
+    private function _parseCurlResponse($content)
+    {
+        list($headers, $body) = explode("\r\n\r\n", $content, 2);
+        $this->_parseCurlHeader($headers);
+        return $body;
+    }
+
+    private function _parseCurlHeader($headers)
+    {
+        $headers = explode("\n", $headers);
+        foreach($headers as $header) {
+            preg_match("/^(.*):\s(.*)/", $header, $property);
+            if (count($property) === 3) {
+                if($property[1] === 'Location') {
+                    $this->_setHeaderLocation($property[2]);
+                }
+            } else {
+                $this->_setHeaderResponseCode($header);
+            }
+        }
     }
 
     private function _isAuthInPath()
@@ -279,5 +324,16 @@ class RESTful implements RESTfulInterface
         if ($this->_isHeaderAuthentication()) {
             array_push($headerArray, $this->_headerProperty . ': ' . $this->_token);
         }
+    }
+
+    private function _setHeaderLocation($location)
+    {
+        $this->_headerLocation = $location;
+    }
+
+    private function _setHeaderResponseCode($response)
+    {
+        preg_match("/.*\s(\d{3})\s(.*)/", $response, $responseCode);
+        $this->_headerResponseCode = $responseCode[1];
     }
 }

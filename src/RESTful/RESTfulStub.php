@@ -41,6 +41,27 @@ class RESTfulStub implements RESTfulInterface
         $this->_timeout = $seconds;
     }
 
+    public function setContentType($contentType) 
+    {
+        $this->_contentType = $contentType;
+    }
+
+    public function setPathConfiguration($pathConfiguration) 
+    {
+        $this->_pathConfiguration = $pathConfiguration;
+    }
+
+    public function setHeaderProperty($headerProperty) 
+    {
+        $headerProperty = rtrim($headerProperty, ':');
+        $this->_headerProperty = $headerProperty;
+    }
+
+    public function getHeaderLocation() 
+    {
+        curl_setopt($CURL, CURLOPT_HEADER, TRUE);
+    }
+
     public function put($path, $data) 
     {
       return $this->_getSetResponse($data);
