@@ -215,8 +215,9 @@ class RESTful implements RESTfulInterface
      * Returns with Initialized CURL Handler
      *
      * @param String $mode Mode
+     * @param string $path
      *
-     * @return CURL Curl Handler
+     * @return resource Curl Handler
      */
     private function _getCurlHandler($path, $mode) 
     {
@@ -319,6 +320,9 @@ class RESTful implements RESTfulInterface
         return $this->_headerProperty !== null;
     }
 
+    /**
+     * @param string[] $headerArray
+     */
     private function _addHeaderAuthentication(&$headerArray) 
     {
         if ($this->_isHeaderAuthentication()) {
@@ -326,6 +330,9 @@ class RESTful implements RESTfulInterface
         }
     }
 
+    /**
+     * @param string $location
+     */
     private function _setHeaderLocation($location)
     {
         $this->_headerLocation = $location;
