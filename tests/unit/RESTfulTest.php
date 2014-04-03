@@ -123,6 +123,13 @@ class RESTfulTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($actualResponse);
     }
 
+    public function testGetResponseBody()
+    {
+        $this->_RESTful->patch(self::DEFAULT_PATH, self::DEFAULT_PATCH_DATA);
+        $actualResponse = $this->_RESTful->getResponseBody();
+        $this->assertEquals('{"lastName": "Baker-Boy"}', $actualResponse);
+    }
+
     /************ Providers ************/
 
     public function headerAuthenticationProvider() 

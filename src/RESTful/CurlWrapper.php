@@ -15,6 +15,7 @@ class CurlWrapper
     protected $_headerProperty = null; 
     protected $_headerResponseCode = null;
     protected $_contentType;
+    protected $_responseBody;
 
     /**
      * Constructor
@@ -133,6 +134,7 @@ class CurlWrapper
     {
         list($headers, $body) = explode("\r\n\r\n", $content, 2);
         $this->_parseCurlHeader($headers);
+        $this->_setResponseBody($body);
         return $body;
     }
 
@@ -151,9 +153,11 @@ class CurlWrapper
         }
     }
 
-    /**
-     * @param string[] $headerArray
-     */
+    private function _setResponseBody($body)
+    {
+        $this->_responseBody = $body;
+    }
+
     private function _addHeaderAuthentication(&$headerArray) 
     {
         if ($this->_isHeaderAuthentication()) {
@@ -161,9 +165,6 @@ class CurlWrapper
         }
     }
 
-    /**
-     * @param string $location
-     */
     private function _setHeaderLocation($location)
     {
         $this->_headerLocation = $location;

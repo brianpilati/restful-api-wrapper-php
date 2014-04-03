@@ -110,6 +110,16 @@ class RESTful extends CurlWrapper implements RESTfulInterface
     }
 
     /**
+     * Get REST call Response Body 
+     *
+     * @return "string"
+     */
+    public function getResponseBody() 
+    {
+        return $this->_responseBody;
+    }
+
+    /**
      * Get REST call Header Status Code Property
      *
      * @return "string"

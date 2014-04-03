@@ -50,6 +50,11 @@ interface RESTfulInterface
     /**
      * @return string
      */
+    public function getResponseBody();
+
+    /**
+     * @return string
+     */
     public function put($path, $data);
 
     /**
